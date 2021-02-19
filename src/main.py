@@ -316,6 +316,9 @@ def poketypes_back(client: app, callback_query: CallbackQuery):
 @app.on_message(Filters.command(['data', 'data@MadBoy_Rotomgram2_Bot']))
 def pkmn_search(app, message):
     try:
+        user_id = int(q_data.split('_')[2])
+        cuser_id = callback_query.from_user.id
+        if cuser_id == user_id: 
         if message.text == '/data' or message.text == '/data@MadBoy_Rotomgram2_Bot':
             app.send_message(message.chat.id, texts['error1'], parse_mode='HTML')
             return None
@@ -370,7 +373,11 @@ def pkmn_search(app, message):
     markup = InlineKeyboardMarkup(markup_list)
 
     func.bot_action(app, message, text, markup)
-
+    else:
+        callback_query.answer(
+            text="You're not allowed to use this!",
+            show_alert=True
+        )
 
 def best_matches(app, message, result):
     text = texts['results']
